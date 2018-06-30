@@ -1,0 +1,139 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets: ['192.168.1.250:9093']
+
+rule_files:
+  - node_down.yml
+  - memory_over.yml
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['127.0.0.1:9090']
+        labels:
+          group: 'prometheus'
+
+  - job_name: 'friend'
+    static_configs:
+      - targets: ['192.168.1.250:11402']
+        labels:
+          group: 'dev'
+
+  - job_name: 'trend'
+    static_configs:
+      - targets: ['192.168.1.250:12202']
+        labels:
+          group: 'dev'
+
+  - job_name: 'gym'
+    static_configs:
+      - targets: ['192.168.1.250:11502']
+        labels:
+          group: 'dev'
+
+  - job_name: 'sport'
+    static_configs:
+      - targets: ['192.168.1.250:12102']
+        labels:
+          group: 'dev'
+
+  - job_name: 'profile'
+    static_configs:
+      - targets: ['192.168.1.250:12002']
+        labels:
+          group: 'dev'
+
+  - job_name: 'push'
+    static_configs:
+      - targets: ['192.168.1.250:12602']
+        labels:
+          group: 'dev'
+
+  - job_name: 'rank'
+    static_configs:
+      - targets: ['192.168.1.250:12702']
+        labels:
+          group: 'dev'
+
+  - job_name: 'msgbox'
+    static_configs:
+      - targets: ['192.168.1.250:11802']
+        labels:
+          group: 'dev'
+
+  - job_name: 'medal'
+    static_configs:
+      - targets: ['192.168.1.250:11702']
+        labels:
+          group: 'dev'
+
+  - job_name: 'file'
+    static_configs:
+      - targets: ['192.168.1.250:11302']
+        labels:
+          group: 'dev'
+
+  - job_name: 'chat'
+    static_configs:
+      - targets: ['192.168.1.250:11202']
+        labels:
+          group: 'dev'
+
+  - job_name: 'access'
+    static_configs:
+      - targets: ['192.168.1.250:11002']
+        labels:
+          group: 'dev'
+
+  - job_name: 'home'
+    static_configs:
+      - targets: ['192.168.1.250:12302']
+        labels:
+          group: 'dev'
+
+  - job_name: 'app_proxy'
+    static_configs:
+      - targets: ['192.168.1.250:12502']
+        labels:
+          group: 'dev'
+
+  - job_name: 'article'
+    static_configs:
+      - targets: ['192.168.1.250:12402']
+        labels:
+          group: 'dev'
+
+  - job_name: 'device'
+    static_configs:
+      - targets: ['192.168.1.250:11902']
+        labels:
+          group: 'dev'
+
+  - job_name: 'sass_push'
+    static_configs:
+      - targets: ['192.168.1.250:12802']
+        labels:
+          group: 'dev'
+
+  - job_name: 'tracfik'
+    static_configs:
+      - targets: ['192.168.1.250:8080']
+        labels:
+          group: 'dev'
+
+  - job_name: 'nginx'
+    static_configs:
+      - targets: ['192.168.1.250:9527']
+        labels:
+          group: 'dev'
+
+  - job_name: 'smart_device'
+    static_configs:
+      - targets: ['192.168.1.250:12902']                                                                                       
+        labels:                                                                                                               
+          group: 'dev'

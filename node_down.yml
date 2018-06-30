@@ -1,0 +1,35 @@
+groups:
+- name: test
+  rules:
+  - alert: "服务挂掉告警"
+    expr: up == 0
+    for: 1m
+    labels:
+      status: "严重"
+      severity: test
+    annotations:
+      summary: "服务挂掉已经超过1分钟了"
+  - alert: "404"
+    expr: traefik_entrypoint_requests_total{code="404",entrypoint="http",method="GET",protocol="http"} + traefik_entrypoint_requests_total{code="404",entrypoint="http",method="POST",protocol="http"} + traefik_entrypoint_requests_total{code="404",entrypoint="http",method="PRI",protocol="http"}>0
+    for: 1m
+    labels:
+      status: "警告"
+      severity: test
+    annotations:
+      summary: "请求404次数超过1次,当前值{{ $value }}"
+  - alert: "500"
+    expr: traefik_entrypoint_requests_total{code="500",entrypoint="http",method="POST",protocol="http"} + traefik_entrypoint_requests_total{code="500",entrypoint="http",method="PRI",protocol="http"}>0
+    for: 1m
+    labels:
+      status: "警告"
+      severity: test
+    annotations:
+      summary: "请求500次数超过1次,当前值{{ $value }}"
+  - alert: "句柄数"
+    expr: handle_count>1000
+    for: 1m
+    labels:
+      status: "警告"
+      severity: test
+    annotations:
+      summary: "当前连接数超过1000,当前值{{ $value }}"

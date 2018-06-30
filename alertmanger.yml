@@ -1,0 +1,106 @@
+global:
+  smtp_smarthost: 'smtp.126.com:25'
+  smtp_from: 'xiongjiehu@126.com'
+  smtp_auth_username: 'xiongjiehu@126.com'
+  smtp_auth_password: 'hwtzq818824'
+  smtp_require_tls: false
+
+templates:
+  - template/*.tmpl
+
+route:
+  receiver: 'test'
+  group_wait: 30s #组报警等待时间
+  group_interval: 5m  #组报警间隔时间
+  repeat_interval: 10m  #重复报警间隔时间
+  group_by: [cluster, alertname]
+  routes:
+  - receiver: test
+    group_wait: 1m
+    match_re:
+      severity: test
+receivers:
+- name: 'test'
+  email_configs:
+  - to: '2284212253@qq.com' #后面可增加多人邮箱
+    headers: { Subject: "[WARN] 报警邮件" }
+    html: '<div style="font-size:14px;line-height:20px;font-weight:350;color:#3b3b3b;-webkit-font-smoothing:antialiased;font-smoothing:antialiased;background-image:none;background-repeat:repeat;background-position:top left;background-attachment:scroll;">
+            <div class="wrapper" style="margin-top:0;margin-bottom:0;margin-right:auto;margin-left:auto;padding-top:10px;padding-bottom:10px;">
+                 {{ range $i, $alert := .Alerts }}
+                    <div class="table" style="margin-top:0;margin-bottom:40px;margin-right:0;margin-left:0;width:100%;box-shadow:0 1px 3px rgba(0, 0, 0, 0.2);display:table;">
+                            <div class="row" style="display:table-row;background-color:#f6f6f6;background-image:none;background-repeat:repeat;background-position:top left;background-attachment:scroll;">
+                                    <div class="cell" data-title="Name" style="background-color:#ea6153;background-image:none;background-repeat:repeat;background-position:top left;background-attachment:scroll;padding-top:6px;padding-bottom:6px;padding-right:12px;padding-left:12px;display:table-cell;">
+                                            环境
+                                    </div>
+                                    <div class="cell" data-title="Age" style="padding-top:6px;padding-bottom:6px;padding-right:12px;padding-left:12px;display:table-cell;">
+                                            {{ index $alert.Labels "group" }}
+                                    </div>                    
+                            </div>
+                            <div style="display:table-row;background-color:white;background-image:none;background-repeat:repeat;background-position:top left;background-attachment:scroll;width:100%;height:3px;"></div>
+		          
+                          <div class="row" style="display:table-row;background-color:#f6f6f6;background-image:none;background-repeat:repeat;background-position:top left;background-attachment:scroll;">
+                                  <div class="cell" data-title="Name" style="background-color:#ea6153;background-image:none;background-repeat:repeat;background-position:top left;background-attachment:scroll;padding-top:6px;padding-bottom:6px;padding-right:12px;padding-left:12px;display:table-cell;">
+                                          类型
+                                  </div>
+                                  <div class="cell" data-title="Age" style="padding-top:6px;padding-bottom:6px;padding-right:12px;padding-left:12px;display:table-cell;">
+                                          {{ index $alert.Labels "alertname" }}
+                                  </div>                    
+                          </div>
+                          <div style="display:table-row;background-color:white;background-image:none;background-repeat:repeat;background-position:top left;background-attachment:scroll;width:100%;height:3px;"></div>
+                    
+                          <div class="row" style="display:table-row;background-color:#f6f6f6;background-image:none;background-repeat:repeat;background-position:top left;background-attachment:scroll;">
+                                  <div class="cell" data-title="Name" style="background-color:#ea6153;background-image:none;background-repeat:repeat;background-position:top left;background-attachment:scroll;padding-top:6px;padding-bottom:6px;padding-right:12px;padding-left:12px;display:table-cell;">
+                                          级别
+                                  </div>
+                                  <div class="cell" data-title="Age" style="padding-top:6px;padding-bottom:6px;padding-right:12px;padding-left:12px;display:table-cell;">
+                                          {{ index $alert.Labels "status" }}
+                                  </div>                    
+                          </div>
+                          <div style="display:table-row;background-color:white;background-image:none;background-repeat:repeat;background-position:top left;background-attachment:scroll;width:100%;height:3px;"></div>
+		          
+                          <div class="row" style="display:table-row;background-color:#f6f6f6;background-image:none;background-repeat:repeat;background-position:top left;background-attachment:scroll;">
+                                  <div class="cell" data-title="Name" style="background-color:#ea6153;background-image:none;background-repeat:repeat;background-position:top left;background-attachment:scroll;padding-top:6px;padding-bottom:6px;padding-right:12px;padding-left:12px;display:table-cell;">
+                                          实例
+                                  </div>
+                                  <div class="cell" data-title="Age" style="padding-top:6px;padding-bottom:6px;padding-right:12px;padding-left:12px;display:table-cell;">
+                                          {{ index $alert.Labels "instance" }}
+                                  </div>                    
+                          </div>
+                          <div style="display:table-row;background-color:white;background-image:none;background-repeat:repeat;background-position:top left;background-attachment:scroll;width:100%;height:3px;"></div>
+			  
+                          <div class="row" style="display:table-row;background-color:#f6f6f6;background-image:none;background-repeat:repeat;background-position:top left;background-attachment:scroll;">
+                                  <div class="cell" data-title="Name" style="background-color:#ea6153;background-image:none;background-repeat:repeat;background-position:top left;background-attachment:scroll;padding-top:6px;padding-bottom:6px;padding-right:12px;padding-left:12px;display:table-cell;">
+                                          服务
+                                  </div>
+                                  <div class="cell" data-title="Age" style="padding-top:6px;padding-bottom:6px;padding-right:12px;padding-left:12px;display:table-cell;">
+                                          {{ index $alert.Labels "job" }}
+                                  </div>                    
+                          </div>
+                          <div style="display:table-row;background-color:white;background-image:none;background-repeat:repeat;background-position:top left;background-attachment:scroll;width:100%;height:3px;"></div>
+			  
+                          <div class="row" style="display:table-row;background-color:#f6f6f6;background-image:none;background-repeat:repeat;background-position:top left;background-attachment:scroll;">
+                                  <div class="cell" data-title="Name" style="background-color:#ea6153;background-image:none;background-repeat:repeat;background-position:top left;background-attachment:scroll;padding-top:6px;padding-bottom:6px;padding-right:12px;padding-left:12px;display:table-cell;">
+                                          时间
+                                  </div>
+                                  <div class="cell" data-title="Age" style="padding-top:6px;padding-bottom:6px;padding-right:12px;padding-left:12px;display:table-cell;">
+                                          {{ $alert.StartsAt.Format "2006-01-02 15:04:05" }}
+                                  </div>                    
+                          </div>
+                          <div style="display:table-row;background-color:white;background-image:none;background-repeat:repeat;background-position:top left;background-attachment:scroll;width:100%;height:3px;"></div>
+			  
+                          <div class="row" style="display:table-row;background-color:#f6f6f6;background-image:none;background-repeat:repeat;background-position:top left;background-attachment:scroll;">
+                                  <div class="cell" data-title="Name" style="background-color:#ea6153;background-image:none;background-repeat:repeat;background-position:top left;background-attachment:scroll;padding-top:6px;padding-bottom:6px;padding-right:12px;padding-left:12px;display:table-cell;">
+                                          摘要
+                                  </div>
+                                  <div class="cell" data-title="Age" style="padding-top:6px;padding-bottom:6px;padding-right:12px;padding-left:12px;display:table-cell;">
+                                         {{ index $alert.Annotations "summary" }}
+                                  </div>                    
+                          </div>
+                          <div style="display:table-row;background-color:white;background-image:none;background-repeat:repeat;background-position:top left;background-attachment:scroll;width:100%;height:3px;"></div>
+			  
+		    </div>
+		 {{ end }}
+            </div>
+    </div>
+    '
+  - to: 'xiongjiehu@126.com'
